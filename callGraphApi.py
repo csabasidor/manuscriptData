@@ -9,12 +9,14 @@ pd.set_option('display.width', 1500)
 startTime = datetime.now()
 
 
-
+#ADD PAGE NAME
 page_name = 'PAGE NAME'
+#ADD PAGE ID
 url_page_id = 'PAGE ID'
+#ADD YOUR GRAPH API ACCESS TOKEN
 url_access_token = "ACCESS TOKEN"
 
-#RANGE MAX 180 DAYS: SET start date and date bby quartals
+#RANGE MAX 180 DAYS: SET start date and date bby uartals
 d1 = date(2021, 12, 31)
 d2 = date(2022, 4, 1)
 
