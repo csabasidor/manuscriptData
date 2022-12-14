@@ -18,6 +18,14 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
 
 2. ### [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
-
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
+- **Purpose and Extent of usage:**   
+- **Default settings (of variables):**   
+    - **Administrative unit (list_of_nuts):
+    - **Year (year_id):** 2021 
+    - **Months (list_of_months):** all available  
+    - **Indicators:**  all available
+    - **Incoming markets:** all available  
+- **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
 
 
