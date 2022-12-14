@@ -15,7 +15,7 @@ from collections import OrderedDict
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1500)
 
-#All data themes within the API may be found at: https://data.statistics.sk/api/v2/collection/
+#All data themes within the API may be found at: https://data.statistics.sk/api/v2/collection/?lang=en
 base_uri_to_set = 'https://data.statistics.sk/api/v2/dataset/'
 #This version of the script is intended only for the set variable "data_set_id".
 data_set_id = 'cr3804mr'
