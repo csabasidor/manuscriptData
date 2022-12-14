@@ -40,7 +40,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - **Incoming markets:** all available  
 - **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
 
-4. ### [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
+4. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
 - **Purpose and Extent of usage:**   
 - **Default settings (of variables):**   
