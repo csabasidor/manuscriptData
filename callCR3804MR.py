@@ -21,9 +21,9 @@ base_uri_to_set = 'https://data.statistics.sk/api/v2/dataset/'
 data_set_id = 'cr3804mr'
 response_lang = '?lang=en'
 
-#For loading the response data into a PostrgeSQL DB, please insert necessary credentials into the vaiable "engine".
+#For loading the response data into a PostrgeSQL DB, please insert necessary credentials into the vaiable "engine" and remove the hashtag #.
 #engine = create_engine('postgresql+psycopg2://USERNAME:PASSWORD@HOSTNAME:PORTNUMBER/DBNAME')
-#If one does not itend to load the response data into DB,the response data may be exported as an excel file (command LINE).
+#If one does not itend to load the response data into DB,the response data may be exported as an .XLSX or .CSV file (LINE 75 to 78).
 
 #For the selection of a different, or adding additional administrative units, please use comma as separators within the variable "list_of_nuts".
 list_of_nuts = ['SK0422_0425']
@@ -44,31 +44,35 @@ list_of_dims = ['DIM01','DIM02','DIM03','DIM04','DIM05','DIM06','DIM07','DIM08',
 #List of dimension for the given data topic may be found: https://data.statistics.sk/api/v2/dimension/cr3804mr/cr3804mr_dim3?lang=en
 
 
-def get_tab(x,y):  
-    uri = base_uri_to_set + data_set_id +'/'+list_of_nuts[x]+'/'+ year_id +'/'+list_of_months +'/' + list_of_indicators + '/'+ list_of_dims[y] + response_lang
-    print(uri)
-    print(x)
-    print(y)
+global df_list
+df_list = []
+
+
+def get_tab(y):  
+    uri = base_uri_to_set + data_set_id +'/'+ x +'/'+ year_id +'/'+list_of_months +'/' + list_of_indicators + '/'+ list_of_dims[y] + response_lang
+    print('Working on administrative unit: ' + x + ' dimension ' + str(y) + ' of ' + str(len(list_of_dims)))
+    print('If an Error message arise please check the corresponding uri: ' + uri)
+    #print(y)
     json_stat_dateset = jsonstat.from_url(uri)
     df_idx = json_stat_dateset.to_data_frame(content=['idx'])
     df_label = json_stat_dateset.to_data_frame()
     final_data = pd.merge(df_idx, df_label, left_index=True, right_index=True)
-    print(final_data)
-#For exporting data into SQL or PostgreSql DB, please use the command below by deleting the hashtag #.
-    #final_data.to_sql('inputCr3804mr', engine, if_exists='append')
-#For exporting data into a .CSV, please use the command below by deleting the hashtag #.
-    #final_data.to_excel('inputCr3804mr.xlsx')
+    df_list.append(final_data)
     
-x=0
+
 y=0
+for x in list_of_nuts:
+    get_tab(y)
+    while y < len(list_of_dims) - 1:
+        y = y +1
+        get_tab(y)
 
-get_tab(x,y)
-
-while y < len(list_of_dims) - 1:
-    y = y +1
-    get_tab(x,y)
-
-
-
+data_out = pd.concat(df_list)
 
 
+#For exporting data into SQL or PostgreSql DB, please use the command below by deleting the hashtag #.
+    #data_out.to_sql('inputCr3804mr', engine, if_exists='append')
+#For exporting data into a .xlsx file, please use the command below by deleting the hashtag #.
+    #data_out.to_excel('inputCr3804mr.xlsx')
+#For exporting data into a .CSV file, please use the command below by deleting the hashtag #.
+    #data_out.to_csv('inputCr3804mr.csv')
