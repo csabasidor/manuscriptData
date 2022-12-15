@@ -44,9 +44,9 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - **Indicators:**  
         - per city, per country
         - Users, Sessions, Average Session Duration  
-- **Output data set name:** 
-        - ga_country_month
-        - ga_city_month
+- **Output data set name:**
+    - ga_country_month
+    - ga_city_month
 - **Possible export formats at default:** PostgreSQL, 
 
 4. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
