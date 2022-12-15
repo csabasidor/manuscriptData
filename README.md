@@ -15,6 +15,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - **Months (list_of_months):** all available  
     - **Indicators:**  all available
     - **Incoming markets:** all available  
+    -  **Output data set name:** inputCr3804mr  
 - **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
 
 2. ### [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
@@ -32,19 +33,21 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
         - Page content activity by country [page_content_activity_by_country_unique]  
         - Page impressions by city [page_impressions_by_city_unique]  
         - Page impressions by content activity [page_content_activity_by_city_unique]     
-    
-- **Possible export formats at default:** PostgreSQL, (.csv and .xlsx formats are not encouraged) 
+    - **Output data set name:** fb_data_in  
+    - **Possible export formats at default:** PostgreSQL, (.csv and .xlsx formats are not encouraged) 
 
 3. ### [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), .xslx dumps for cities (folder name = GAcities) and countries (folder name = GAcountries) in two seperate folders.
 - **Purpose and Extent of usage:** Import multiple .xlsx dumps of [Google Analytics](https://analytics.google.com/) basic metrics. It is recommended to use only when one does not have an access token to the Google Analytics API.
 - **Default settings (of variables):**   
-    - **Administrative unit (list_of_nuts):**
-    - **Year (year_id):** 2021 
-    - **Months (list_of_months):** all available  
-    - **Indicators:**  all available
-    - **Incoming markets:** all available  
-- **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
+    - **Page name (page_name):** None  
+    - **Indicators:**  
+        - per city, per country
+        - Users, Sessions, Average Session Duration  
+    - **Output data set name:** 
+        - ga_country_month
+        - ga_city_month
+- **Possible export formats at default:** PostgreSQL, 
 
 4. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
