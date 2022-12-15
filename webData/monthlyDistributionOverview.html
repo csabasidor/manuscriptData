@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z5N9LMNDLE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z5N9LMNDLE');
+</script>
+    <title>Overview</title>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-save-svg@0.0.2/build/d3-save-svg.min.js"></script>
+
+<!-- 1) Load D3.js and billboard.js separately -->
+    <!-- Load D3: -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!-- Load billboard.js with base(or theme) style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.js"></script>
+
+
+
+</head>
+
+<body>
+
+<style>
+	 .bb-chart-arc text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+   .bb-legend-item text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+   .bb-chart-arcs text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+  .bb-chart text {fill: #5A5A5A;font-size: 13px}
+      text.bb-axis-x-label  {fill: #5A5A5A;font-size: 12px}
+
+    text.bb-axis-y-label  {fill: #5A5A5A;font-size: 12px}   
+   .line-class { stroke-dasharray: 3 4; stroke-width: 3px; }
+
+    .bb-title  {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+
+a.button {
+    background-color: #add8e6; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family : arial;
+    }
+    
+    p {
+    position: absolute;
+    top: 50%;
+    left: 40%}
+
+    .ten {
+  width: 10%;
+  background: tomato;
+}
+  </style>
+
+<div class="container-fluid">
+  <div class="row">
+   <div class="col"><div id="visitorsAT"></div></div> 
+   <div class="col"><div id="visitorsCZ"></div></div>
+   <div class="col"><div id="visitorsHU"></div></div> 
+   <div class="col"><div id="visitorsPL"></div></div> 
+   <div class="col"><div id="visitorsSK"></div></div> 
+ </div>
+ <div class="row">  
+   <div class="col"><div id="overnightsAT"></div></div> 
+   <div class="col"><div id="overnightsCZ"></div></div>
+   <div class="col"><div id="overnightsHU"></div></div> 
+   <div class="col"><div id="overnightsPL"></div></div> 
+   <div class="col"><div id="overnightsSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="overnightsAverageAT"></div></div> 
+   <div class="col"><div id="overnightsAverageCZ"></div></div>
+   <div class="col"><div id="overnightsAverageHU"></div></div> 
+   <div class="col"><div id="overnightsAveragePL"></div></div> 
+   <div class="col"><div id="overnightsAverageSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="webUsersAT"></div></div> 
+   <div class="col"><div id="webUsersCZ"></div></div>
+   <div class="col"><div id="webUsersHU"></div></div> 
+   <div class="col"><div id="webUsersPL"></div></div> 
+   <div class="col"><div id="webUsersSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="webSessionsAT"></div></div> 
+   <div class="col"><div id="webSessionsCZ"></div></div>
+   <div class="col"><div id="webSessionsHU"></div></div> 
+   <div class="col"><div id="webSessionsPL"></div></div> 
+   <div class="col"><div id="webSessionsSK"></div></div> 
+  </div>
+  <div class="row">
+  <div class="col"><div id="fbImperssionsAT"></div></div> 
+   <div class="col"><div id="fbImperssionsCZ"></div></div>
+   <div class="col"><div id="fbImperssionsHU"></div></div> 
+   <div class="col"><div id="fbImperssionsPL"></div></div> 
+   <div class="col"><div id="fbImperssionsSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="fbContentActvityAT"></div></div> 
+   <div class="col"><div id="fbContentActvityCZ"></div></div>
+   <div class="col"><div id="fbContentActvityHU"></div></div> 
+   <div class="col"><div id="fbContentActvityPL"></div></div> 
+   <div class="col"><div id="fbContentActvitySK"></div></div> 
+  </div>
+ 
+
+</div>
+
+
+
+  </body>
+
+  <script type="text/javascript">
+
+
+    
+
+
+var chartsSizes = {height: 500,
+                  width: 350}
+
+//"#visitorsAnnual"
+var chart = bb.generate({
+	 size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Number of visitors", /*"Visitors (Average)",*/ "Visitors (Median)", "Visitors (75 percentile)", "Visitors (25 percentile)",],
+          },
+    types: {
+            "Number of visitors": "bar",
+            /*"Visitors (Average)": "line",*/
+            "Visitors (Median)": "line",
+            "Visitors (75 percentile)": "line",
+            "Visitors (25 percentile)": "line"
+            },
+    labels : {
+      format: {
+        "Visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+  },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label:  {text:"Visitors", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#visitorsSK"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//#overnights
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Nights spent by visitors", /*"Nights spent by visitors (Average)"*/, "Number of nights spent by visitors (Median)", "Nights spent by visitors (75 percentile)", "Nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Nights spent by visitors": "bar",
+            /*"Nights spent by visitors (Average)": "line",*/
+            "Number of nights spent by visitors (Median)": "line",
+            "Nights spent by visitors (75 percentile)": "line",
+            "Nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Overnight stays", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#overnightsSK"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Average number of nights spent by visitors",  /*"Average number of nights spent by visitors (Average)",*/"Average number of nights spent by visitors (Median)", "Average number of nights spent by visitors (75 percentile)", "Average number of nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Average number of nights spent by visitors": "bar",
+            /*"Average number of nights spent by visitors (Average)": "line",*/
+            "Average number of nights spent by visitors (Median)": "line",
+            "Average number of nights spent by visitors (75 percentile)": "line",
+            "Average number of nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Average number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Average number of nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Average number of nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Average overnight stays", position: "outer-left"}}},
+  legend: {show: false},
+  bindto: "#overnightsAverageSK"
+});
+
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsers"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Users",  /*"Users (Average)",*/"Users (Median)", "Users (75 percentile)", "Users (25 percentile)"],
+          },
+    types: {
+            "Users": "bar",
+             /*"Users (Average)": "line",*/
+            "Users (Median)": "line",
+            "Users (75 percentile)": "line",
+            "Users (25 percentile)": "line",
+            },
+      labels : {
+      format: {
+        "Users (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Users (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Users (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website users", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webUsersSK"
+});
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webSessions"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Sessions", /*"Sessions (Average)"*/, "Sessions (Median)", "Sessions (75 percentile)", "Sessions (25 percentile)",],
+          },
+    types: {
+            "Sessions": "bar",
+            /*"Sessions (Average)": "line",*/
+            "Sessions (Median)": "line",
+            "Sessions (75 percentile)": "line",
+            "Sessions (25 percentile)": "line",
+            },
+        labels : {
+      format: {
+        "Sessions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Sessions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Sessions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website sessions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webSessionsSK"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#fbImperssions
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Impressions", /*"Impressions (Average)",*/ "Impressions (Median)", "Impressions (75 percentile)", "Impressions (25 percentile)"],
+          },
+    types: {
+            "Impressions": "bar",
+            /*"Impressions (Average)": "line",*/
+            "Impressions (Median)": "line",
+            "Impressions (75 percentile)": "line",
+            "Impressions (25 percentile)": "line",
+
+            },
+        labels : {
+      format: {
+        "Impressions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Impressions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Impressions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page impressions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbImperssionsSK"
+});
+
+
+  </script>
+
+ <script type="text/javascript">
+//#fbContentActvity
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataIn.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Content activity", /*"Content activity (Average)",*/ "Content activity (Median)", "Content activity (75 percentile)", "Content activity (25 percentile)"],
+          },
+    types: {
+            "Content activity": "bar",
+            /*"Content activity (Average)": "line",*/
+            "Content activity (Median)": "line",
+            "Content activity (75 percentile)": "line",
+            "Content activity (25 percentile)": "line"
+
+            },
+          labels : {
+      format: {
+        "Content activity (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Content activity (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Content activity (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#40B5AD", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Slovakia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page content activity", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbContentActvitySK"
+});
+
+  </script>
+
+ <script type="text/javascript">
+
+  //from Czechia
+  //"#visitorsAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Number of visitors", /*"Visitors (Average)",*/ "Visitors (Median)", "Visitors (75 percentile)", "Visitors (25 percentile)",],
+          },
+    types: {
+            "Number of visitors": "bar",
+            /*"Visitors (Average)": "line",*/
+            "Visitors (Median)": "line",
+            "Visitors (75 percentile)": "line",
+            "Visitors (25 percentile)": "line"
+            },
+     labels : {
+      format: {
+        "Visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Visitors", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#visitorsCZ"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//#overnights
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Nights spent by visitors", /*"Nights spent by visitors (Average)",*/ "Number of nights spent by visitors (Median)", "Nights spent by visitors (75 percentile)", "Nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Nights spent by visitors": "bar",
+            /*"Nights spent by visitors (Average)": "line",*/
+            "Number of nights spent by visitors (Median)": "line",
+            "Nights spent by visitors (75 percentile)": "line",
+            "Nights spent by visitors (25 percentile)": "line"
+            },
+    labels : {
+      format: {
+        "Number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Overnight stays", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#overnightsCZ"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Average number of nights spent by visitors", /*"Average number of nights spent by visitors (Average)",*/ "Average number of nights spent by visitors (Median)", "Average number of nights spent by visitors (75 percentile)", "Average number of nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Average number of nights spent by visitors": "bar",
+            /*"Average number of nights spent by visitors (Average)": "line",*/
+            "Average number of nights spent by visitors (Median)": "line",
+            "Average number of nights spent by visitors (75 percentile)": "line",
+            "Average number of nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Average number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Average number of nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Average number of nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Average overnight stays", position: "outer-left"}}},
+  legend: {show: false},
+  bindto: "#overnightsAverageCZ"
+});
+
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsers"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Users", /*"Users (Average)",*/ "Users (Median)", "Users (75 percentile)", "Users (25 percentile)"],
+          },
+    types: {
+            "Users": "bar",
+            /*"Users (Average)": "line",*/
+            "Users (Median)": "line",
+            "Users (75 percentile)": "line",
+            "Users (25 percentile)": "line",
+            },
+               labels : {
+      format: {
+        "Users (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Users (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Users (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website users", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webUsersCZ"
+});
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webSessions"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Sessions", /*"Sessions (Average)",*/ "Sessions (Median)", "Sessions (75 percentile)", "Sessions (25 percentile)",],
+          },
+    types: {
+            "Sessions": "bar",
+            /*"Sessions (Average)": "line",*/
+            "Sessions (Median)": "line",
+            "Sessions (75 percentile)": "line",
+            "Sessions (25 percentile)": "line",
+            },
+         labels : {
+      format: {
+        "Sessions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Sessions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Sessions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website sessions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webSessionsCZ"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#fbImperssions
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Impressions", /*"Impressions (Average)",*/ "Impressions (Median)", "Impressions (75 percentile)", "Impressions (25 percentile)"],
+          },
+    types: {
+            "Impressions": "bar",
+            /*"Impressions (Average)": "line",*/
+            "Impressions (Median)": "line",
+            "Impressions (75 percentile)": "line",
+            "Impressions (25 percentile)": "line",
+
+            },
+        labels : {
+      format: {
+        "Impressions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Impressions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Impressions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page impressions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbImperssionsCZ"
+});
+
+
+  </script>
+
+ <script type="text/javascript">
+//#fbContentActvity
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Content activity", /*"Content activity (Average)",*/ "Content activity (Median)", "Content activity (75 percentile)", "Content activity (25 percentile)"],
+          },
+    types: {
+            "Content activity": "bar",
+            /*"Content activity (Average)": "line",*/
+            "Content activity (Median)": "line",
+            "Content activity (75 percentile)": "line",
+            "Content activity (25 percentile)": "line"
+
+            },
+          labels : {
+      format: {
+        "Content activity (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Content activity (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Content activity (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#6495ED", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Czechia per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page content activity", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbContentActvityCZ"
+});
+
+  </script>
+ 
+  
+   <script type="text/javascript">
+//Austria
+  //"#visitorsAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Number of visitors", /*"Visitors (Average)",*/ "Visitors (Median)", "Visitors (75 percentile)", "Visitors (25 percentile)",],
+          },
+    types: {
+            "Number of visitors": "bar",
+            /*"Visitors (Average)": "line",*/
+            "Visitors (Median)": "line",
+            "Visitors (75 percentile)": "line",
+            "Visitors (25 percentile)": "line"
+            },
+    labels : {
+      format: {
+        "Visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Visitors", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#visitorsAT"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//#overnights
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Nights spent by visitors", /*"Nights spent by visitors (Average)",*/ "Number of nights spent by visitors (Median)", "Nights spent by visitors (75 percentile)", "Nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Nights spent by visitors": "bar",
+            /*"Nights spent by visitors (Average)": "line",*/
+            "Number of nights spent by visitors (Median)": "line",
+            "Nights spent by visitors (75 percentile)": "line",
+            "Nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Overnight stays", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#overnightsAT"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Average number of nights spent by visitors", /*"Average number of nights spent by visitors (Average)",*/ "Average number of nights spent by visitors (Median)", "Average number of nights spent by visitors (75 percentile)", "Average number of nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Average number of nights spent by visitors": "bar",
+            "Average number of nights spent by visitors (Average)": "line",
+            "Average number of nights spent by visitors (Median)": "line",
+            "Average number of nights spent by visitors (75 percentile)": "line",
+            "Average number of nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Average number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Average number of nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Average number of nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Average overnight stays", position: "outer-left"}}},
+  legend: {show: false},
+  bindto: "#overnightsAverageAT"
+});
+
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsers"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Users", /*"Users (Average)"*/, "Users (Median)", "Users (75 percentile)", "Users (25 percentile)"],
+          },
+    types: {
+            "Users": "bar",
+            /*"Users (Average)": "line",*/
+            "Users (Median)": "line",
+            "Users (75 percentile)": "line",
+            "Users (25 percentile)": "line",
+            },
+                  labels : {
+      format: {
+        "Users (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Users (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Users (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website users", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webUsersAT"
+});
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webSessions"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Sessions", /*"Sessions (Average)",*/ "Sessions (Median)", "Sessions (75 percentile)", "Sessions (25 percentile)",],
+          },
+    types: {
+            "Sessions": "bar",
+            /*"Sessions (Average)": "line",*/
+            "Sessions (Median)": "line",
+            "Sessions (75 percentile)": "line",
+            "Sessions (25 percentile)": "line",
+            },
+         labels : {
+      format: {
+        "Sessions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Sessions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Sessions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website sessions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webSessionsAT"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#fbImperssions
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Impressions", /*"Impressions (Average)",*/ "Impressions (Median)", "Impressions (75 percentile)", "Impressions (25 percentile)"],
+          },
+    types: {
+            "Impressions": "bar",
+            /*"Impressions (Average)": "line",*/
+            "Impressions (Median)": "line",
+            "Impressions (75 percentile)": "line",
+            "Impressions (25 percentile)": "line",
+
+            },
+       labels : {
+      format: {
+        "Impressions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Impressions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Impressions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page impressions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbImperssionsAT"
+});
+
+
+  </script>
+
+ <script type="text/javascript">
+//#fbContentActvity
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Content activity", /*"Content activity (Average)",*/ "Content activity (Median)", "Content activity (75 percentile)", "Content activity (25 percentile)"],
+          },
+    types: {
+            "Content activity": "bar",
+            /*"Content activity (Average)": "line",*/
+            "Content activity (Median)": "line",
+            "Content activity (75 percentile)": "line",
+            "Content activity (25 percentile)": "line"
+
+            },
+          labels : {
+      format: {
+        "Content activity (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Content activity (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Content activity (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#DEF7CC", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Austria per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page content activity", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbContentActvityAT"
+});
+
+  </script>
+   <script type="text/javascript">
+//HUNGARY
+  //"#visitorsAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Number of visitors", /*"Visitors (Average)",*/ "Visitors (Median)", "Visitors (75 percentile)", "Visitors (25 percentile)",],
+          },
+    types: {
+            "Number of visitors": "bar",
+            /*"Visitors (Average)": "line",*/
+            "Visitors (Median)": "line",
+            "Visitors (75 percentile)": "line",
+            "Visitors (25 percentile)": "line"
+            },
+    labels : {
+      format: {
+        "Visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Visitors", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#visitorsHU"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//#overnights
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Nights spent by visitors", /*"Nights spent by visitors (Average)",*/ "Number of nights spent by visitors (Median)", "Nights spent by visitors (75 percentile)", "Nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Nights spent by visitors": "bar",
+            /*"Nights spent by visitors (Average)": "line",*/
+            "Number of nights spent by visitors (Median)": "line",
+            "Nights spent by visitors (75 percentile)": "line",
+            "Nights spent by visitors (25 percentile)": "line"
+            },
+     labels : {
+      format: {
+        "Number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Overnight stays", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#overnightsHU"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Average number of nights spent by visitors", /*"Average number of nights spent by visitors (Average)",*/ "Average number of nights spent by visitors (Median)", "Average number of nights spent by visitors (75 percentile)", "Average number of nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Average number of nights spent by visitors": "bar",
+            "Average number of nights spent by visitors (Average)": "line",
+            "Average number of nights spent by visitors (Median)": "line",
+            "Average number of nights spent by visitors (75 percentile)": "line",
+            "Average number of nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Average number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Average number of nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Average number of nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Average overnight stays", position: "outer-left"}}},
+  legend: {show: false},
+  bindto: "#overnightsAverageHU"
+});
+
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsers"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Users", /*"Users (Average)",*/ "Users (Median)", "Users (75 percentile)", "Users (25 percentile)"],
+          },
+    types: {
+            "Users": "bar",
+            /*"Users (Average)": "line",*/
+            "Users (Median)": "line",
+            "Users (75 percentile)": "line",
+            "Users (25 percentile)": "line",
+            },
+     labels : {
+      format: {
+        "Users (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Users (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Users (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website users", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webUsersHU"
+});
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webSessions"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Sessions", /*"Sessions (Average)",*/ "Sessions (Median)", "Sessions (75 percentile)", "Sessions (25 percentile)",],
+          },
+    types: {
+            "Sessions": "bar",
+            /*"Sessions (Average)": "line",*/
+            "Sessions (Median)": "line",
+            "Sessions (75 percentile)": "line",
+            "Sessions (25 percentile)": "line",
+            },
+
+      labels : {
+      format: {
+        "Sessions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Sessions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Sessions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website sessions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webSessionsHU"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#fbImperssions
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Impressions", /*"Impressions (Average)",*/ "Impressions (Median)", "Impressions (75 percentile)", "Impressions (25 percentile)"],
+          },
+    types: {
+            "Impressions": "bar",
+            /*"Impressions (Average)": "line",*/
+            "Impressions (Median)": "line",
+            "Impressions (75 percentile)": "line",
+            "Impressions (25 percentile)": "line",
+
+            },
+        labels : {
+      format: {
+        "Impressions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Impressions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Impressions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page impressions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbImperssionsHU"
+});
+
+
+  </script>
+
+ <script type="text/javascript">
+//#fbContentActvity
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Content activity", /*"Content activity (Average)",*/ "Content activity (Median)", "Content activity (75 percentile)", "Content activity (25 percentile)"],
+          },
+    types: {
+            "Content activity": "bar",
+            /*"Content activity (Average)": "line",*/
+            "Content activity (Median)": "line",
+            "Content activity (75 percentile)": "line",
+            "Content activity (25 percentile)": "line"
+
+            },
+          labels : {
+      format: {
+        "Content activity (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Content activity (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Content activity (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#66D56D", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Hungary per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page content activity", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbContentActvityHU"
+});
+
+  </script>
+   <script type="text/javascript">
+//POLAND
+  //"#visitorsAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Number of visitors", /*"Visitors (Average)",*/ "Visitors (Median)", "Visitors (75 percentile)", "Visitors (25 percentile)",],
+          },
+    types: {
+            "Number of visitors": "bar",
+            /*"Visitors (Average)": "line",*/
+            "Visitors (Median)": "line",
+            "Visitors (75 percentile)": "line",
+            "Visitors (25 percentile)": "line"
+            },
+    labels : {
+      format: {
+        "Visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Visitors", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#visitorsPL"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//#overnights
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Nights spent by visitors", /*"Nights spent by visitors (Average)",*/ "Number of nights spent by visitors (Median)", "Nights spent by visitors (75 percentile)", "Nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Nights spent by visitors": "bar",
+            /*"Nights spent by visitors (Average)": "line",*/
+            "Number of nights spent by visitors (Median)": "line",
+            "Nights spent by visitors (75 percentile)": "line",
+            "Nights spent by visitors (25 percentile)": "line"
+            },
+     labels : {
+      format: {
+        "Number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Overnight stays", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#overnightsPL"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Average number of nights spent by visitors", /*"Average number of nights spent by visitors (Average)",*/ "Average number of nights spent by visitors (Median)", "Average number of nights spent by visitors (75 percentile)", "Average number of nights spent by visitors (25 percentile)",],
+          },
+    types: {
+            "Average number of nights spent by visitors": "bar",
+            "Average number of nights spent by visitors (Average)": "line",
+            "Average number of nights spent by visitors (Median)": "line",
+            "Average number of nights spent by visitors (75 percentile)": "line",
+            "Average number of nights spent by visitors (25 percentile)": "line"
+            },
+             labels : {
+      format: {
+        "Average number of nights spent by visitors (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Average number of nights spent by visitors (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Average number of nights spent by visitors (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Average overnight stays", position: "outer-left"}}},
+  legend: {show: false},
+  bindto: "#overnightsAveragePL"
+});
+
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsers"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Users", /*"Users (Average)"*/ "Users (Median)", "Users (75 percentile)", "Users (25 percentile)"],
+          },
+    types: {
+            "Users": "bar",
+            /*"Users (Average)": "line",*/
+            "Users (Median)": "line",
+            "Users (75 percentile)": "line",
+            "Users (25 percentile)": "line",
+            },
+      labels : {
+      format: {
+        "Users (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Users (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Users (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website users", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webUsersPL"
+});
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webSessions"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Sessions", /*"Sessions (Average)",*/ "Sessions (Median)", "Sessions (75 percentile)", "Sessions (25 percentile)",],
+          },
+    types: {
+            "Sessions": "bar",
+            /*"Sessions (Average)": "line",*/
+            "Sessions (Median)": "line",
+            "Sessions (75 percentile)": "line",
+            "Sessions (25 percentile)": "line",
+            },
+      labels : {
+      format: {
+        "Sessions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Sessions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Sessions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "Website sessions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#webSessionsPL"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#fbImperssions
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Impressions", /*"Impressions (Average)",*/ "Impressions (Median)", "Impressions (75 percentile)", "Impressions (25 percentile)"],
+          },
+    types: {
+            "Impressions": "bar",
+            /*"Impressions (Average)": "line",*/
+            "Impressions (Median)": "line",
+            "Impressions (75 percentile)": "line",
+            "Impressions (25 percentile)": "line",
+
+            },
+        labels : {
+      format: {
+        "Impressions (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Impressions (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Impressions (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page impressions", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbImperssionsPL"
+});
+
+
+  </script>
+
+ <script type="text/javascript">
+//#fbContentActvity
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    url: "dataInPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["Content activity", /*"Content activity (Average)",*/ "Content activity (Median)", "Content activity (75 percentile)", "Content activity (25 percentile)"],
+          },
+    types: {
+            "Content activity": "bar",
+            /*"Content activity (Average)": "line",*/
+            "Content activity (Median)": "line",
+            "Content activity (75 percentile)": "line",
+            "Content activity (25 percentile)": "line"
+
+            },
+          labels : {
+      format: {
+        "Content activity (Median)": function(v, id ,i, j) { return i ==1 ?  "Median" : "";},
+        "Content activity (25 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q1" : "";},
+        "Content activity (75 percentile)": function(v, id ,i, j) { return i ==1 ?  "Q3" : "";},
+
+    },
+   }
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: ["#00FFFF", "#FF0000", "#702963", "#F88379"]},
+  axis: {x: { label: {text: "from Poland per month", position: "outer-middle"},  tick: {culling: false}}, y: {label: {text: "FB page content activity", position: "outer-left"}, tick: {format: function(y) {return y/1000 + "K"} }}},
+  legend: {show: false},
+  bindto: "#fbContentActvityPL"
+});
+
+  </script>

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z5N9LMNDLE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z5N9LMNDLE');
+</script>
+    <title>Overview</title>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-save-svg@0.0.2/build/d3-save-svg.min.js"></script>
+
+<!-- 1) Load D3.js and billboard.js separately -->
+    <!-- Load D3: -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!-- Load billboard.js with base(or theme) style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.js"></script>
+
+
+
+</head>
+
+<body>
+
+<style>
+
+   .bb-legend-item text {fill: #5A5A5A;font-size: 13px}
+   .bb-chart-arcs text {fill: #5A5A5A;font-size: 13px}
+  .bb-chart text {fill: #5A5A5A;font-size: 13px}
+  bb-axis-x-label {height: 200%}
+      text.bb-axis-x-label  {fill: #5A5A5A;font-size: 10px}
+.bb-axis-x text  {fill: #5A5A5A;font-size: 13px}   
+    .bb-axis-y text  {fill: #5A5A5A;font-size: 12px}   
+    text.bb-axis-y-label  {fill: #5A5A5A;font-size: 13px}   
+
+
+
+a.button {
+    background-color: #add8e6; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family : arial;
+    }
+    
+    p {
+    position: absolute;
+    top: 50%;
+    left: 40%}
+
+    .ten {
+  width: 10%;
+  background: tomato;
+}
+  </style>
+
+<div class="container-fluid">
+  
+  <div class="row">
+   <div class="col"><div id="usersAT"></div></div> 
+   <div class="col"><div id="usersCZ"></div></div>
+   <div class="col"><div id="usersHU"></div></div> 
+   <div class="col"><div id="usersPL"></div></div> 
+   <div class="col"><div id="usersSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="sessionsAT"></div></div> 
+   <div class="col"><div id="sessionsCZ"></div></div>
+   <div class="col"><div id="sessionsHU"></div></div> 
+   <div class="col"><div id="sessionsPL"></div></div> 
+   <div class="col"><div id="sessionsSK"></div></div> 
+  </div>
+    <div class="row">
+   <div class="col"><div id="impressionsAT"></div></div> 
+   <div class="col"><div id="impressionsCZ"></div></div>
+   <div class="col"><div id="impressionsHU"></div></div> 
+   <div class="col"><div id="impressionsPL"></div></div> 
+   <div class="col"><div id="impressionsSK"></div></div> 
+  </div>
+  <div class="row">
+   <div class="col"><div id="contentActivityAT"></div></div> 
+   <div class="col"><div id="contentActivityCZ"></div></div>
+   <div class="col"><div id="contentActivityHU"></div></div> 
+   <div class="col"><div id="contentActivityPL"></div></div> 
+   <div class="col"><div id="contentActivitySK"></div></div> 
+  </div>
+</div>
+
+
+
+  </body>
+
+  <script type="text/javascript">
+
+
+    
+
+
+var chartsSizes = {height: 500,
+                  width: 350}
+
+
+var colorsDurationBins = ["#c30010","#f94449","#f69697","#ffcbd1","#FCF5E5"]
+
+//"#usersAT"
+var chart = bb.generate({
+	 size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min",],
+          },
+    types: {
+            "% Users Within 60 min": "bar", 
+            "% Users Within 61 to 120 min": "bar", 
+            "% Users Within 121 to 180 min": "bar", 
+            "% Users Within 181 to 240 min": "bar", 
+            "% Users Over 240 min": "bar"
+            },
+    groups: [["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min"]],
+    names: {"% Users Within 60 min": "Within 60 min", 
+            "% Users Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Users Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Users Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Users Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+ 
+  /*axis: {rotated: false, x: {label: {text: "from Austria per month", position: "outer-middle"},type: "category", tick: {fit: true, culling: false}}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Users", tick: {format: function(y) {return y + "%"} }}},
+*/
+
+  axis: {rotated: false, 
+  x: {label: {text: "from Austria per month", position: "inner-middle"},type: "category"}, 
+  y: { max: 100, padding: {top: 0}, label: { text: "% of Users"/*, position: "outer-left"*/}, tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true, position: "bottom"},
+  bindto: "#usersAT"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//"#usersCZ"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min",],
+          },
+    types: {
+            "% Users Within 60 min": "bar", 
+            "% Users Within 61 to 120 min": "bar", 
+            "% Users Within 121 to 180 min": "bar", 
+            "% Users Within 181 to 240 min": "bar", 
+            "% Users Over 240 min": "bar"
+            },
+    groups: [["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min"]],
+    names: {"% Users Within 60 min": "Within 60 min", 
+            "% Users Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Users Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Users Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Users Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Czechia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Users", tick: {centered: false,count: 11,format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#usersCZ"
+});
+
+  </script>
+
+  <script type="text/javascript">
+//"#usersHU"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min",],
+          },
+    types: {
+            "% Users Within 60 min": "bar", 
+            "% Users Within 61 to 120 min": "bar", 
+            "% Users Within 121 to 180 min": "bar", 
+            "% Users Within 181 to 240 min": "bar", 
+            "% Users Over 240 min": "bar"
+            },
+    groups: [["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min"]],
+    names: {"% Users Within 60 min": "Within 60 min", 
+            "% Users Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Users Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Users Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Users Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Hungary per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Users", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#usersHU"
+});
+
+  </script>
+
+  <script type="text/javascript">
+ //"#usersPL"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min",],
+          },
+    types: {
+            "% Users Within 60 min": "bar", 
+            "% Users Within 61 to 120 min": "bar", 
+            "% Users Within 121 to 180 min": "bar", 
+            "% Users Within 181 to 240 min": "bar", 
+            "% Users Over 240 min": "bar"
+            },
+    groups: [["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min"]],
+    names: {"% Users Within 60 min": "Within 60 min", 
+            "% Users Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Users Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Users Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Users Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Poland per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Users", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#usersPL"
+});
+</script>
+
+  <script type="text/javascript">
+ //"#usersSK"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsSK.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min",],
+          },
+    types: {
+            "% Users Within 60 min": "bar", 
+            "% Users Within 61 to 120 min": "bar", 
+            "% Users Within 121 to 180 min": "bar", 
+            "% Users Within 181 to 240 min": "bar", 
+            "% Users Over 240 min": "bar"
+            },
+    groups: [["% Users Within 60 min", "% Users Within 61 to 120 min", "% Users Within 121 to 180 min", "% Users Within 181 to 240 min", "% Users Over 240 min"]],
+    names: {"% Users Within 60 min": "Within 60 min", 
+            "% Users Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Users Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Users Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Users Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Slovakia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Users", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#usersSK"
+});
+
+
+  </script>
+ <script type="text/javascript">
+  //"#sessionsAT"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min",],
+          },
+    types: {
+            "% Sessions Within 60 min": "bar", 
+            "% Sessions Within 61 to 120 min": "bar", 
+            "% Sessions Within 121 to 180 min": "bar", 
+            "% Sessions Within 181 to 240 min": "bar", 
+            "% Sessions Over 240 min": "bar"
+            },
+    groups: [["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min"]],
+    names: {"% Sessions Within 60 min": "Within 60 min", 
+            "% Sessions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Sessions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Sessions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Sessions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Austria per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Sessions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#sessionsAT"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//"#sessionsCZ"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min",],
+          },
+    types: {
+            "% Sessions Within 60 min": "bar", 
+            "% Sessions Within 61 to 120 min": "bar", 
+            "% Sessions Within 121 to 180 min": "bar", 
+            "% Sessions Within 181 to 240 min": "bar", 
+            "% Sessions Over 240 min": "bar"
+            },
+    groups: [["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min"]],
+    names: {"% Sessions Within 60 min": "Within 60 min", 
+            "% Sessions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Sessions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Sessions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Sessions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Czechia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Sessions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#sessionsCZ"
+});
+
+  </script>
+
+  <script type="text/javascript">
+//"#sessionsHU"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min",],
+          },
+    types: {
+            "% Sessions Within 60 min": "bar", 
+            "% Sessions Within 61 to 120 min": "bar", 
+            "% Sessions Within 121 to 180 min": "bar", 
+            "% Sessions Within 181 to 240 min": "bar", 
+            "% Sessions Over 240 min": "bar"
+            },
+    groups: [["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min"]],
+    names: {"% Sessions Within 60 min": "Within 60 min", 
+            "% Sessions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Sessions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Sessions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Sessions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Hungary per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Sessions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#sessionsHU"
+});
+
+  </script>
+
+  <script type="text/javascript">
+ //"#sessionsPL"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min",],
+          },
+    types: {
+            "% Sessions Within 60 min": "bar", 
+            "% Sessions Within 61 to 120 min": "bar", 
+            "% Sessions Within 121 to 180 min": "bar", 
+            "% Sessions Within 181 to 240 min": "bar", 
+            "% Sessions Over 240 min": "bar"
+            },
+    groups: [["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min"]],
+    names: {"% Sessions Within 60 min": "Within 60 min", 
+            "% Sessions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Sessions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Sessions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Sessions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Poland per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Sessions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#sessionsPL"
+});
+</script>
+
+  <script type="text/javascript">
+ //"#sessionsSK"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "monthlyDurationBinsSK.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min",],
+          },
+    types: {
+            "% Sessions Within 60 min": "bar", 
+            "% Sessions Within 61 to 120 min": "bar", 
+            "% Sessions Within 121 to 180 min": "bar", 
+            "% Sessions Within 181 to 240 min": "bar", 
+            "% Sessions Over 240 min": "bar"
+            },
+    groups: [["% Sessions Within 60 min", "% Sessions Within 61 to 120 min", "% Sessions Within 121 to 180 min", "% Sessions Within 181 to 240 min", "% Sessions Over 240 min"]],
+    names: {"% Sessions Within 60 min": "Within 60 min", 
+            "% Sessions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Sessions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Sessions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Sessions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Slovakia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Sessions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#sessionsSK"
+});
+</script>
+<script type="text/javascript">
+//impressionsAT
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "impressionsMonthlyDurationBinsAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min",],
+          },
+    types: {
+            "% Impressions Within 60 min": "bar", 
+            "% Impressions Within 61 to 120 min": "bar", 
+            "% Impressions Within 121 to 180 min": "bar", 
+            "% Impressions Within 181 to 240 min": "bar", 
+            "% Impressions Over 240 min": "bar"
+            },
+    groups: [["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min"]],
+    names: {"% Impressions Within 60 min": "Within 60 min", 
+            "% Impressions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Impressions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Impressions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Impressions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Austria per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Impressions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#impressionsAT"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//"#impressionsCZ"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "impressionsMonthlyDurationBinsCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min",],
+          },
+    types: {
+            "% Impressions Within 60 min": "bar", 
+            "% Impressions Within 61 to 120 min": "bar", 
+            "% Impressions Within 121 to 180 min": "bar", 
+            "% Impressions Within 181 to 240 min": "bar", 
+            "% Impressions Over 240 min": "bar"
+            },
+    groups: [["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min"]],
+    names: {"% Impressions Within 60 min": "Within 60 min", 
+            "% Impressions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Impressions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Impressions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Impressions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Czechia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Impressions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#impressionsCZ"
+});
+
+  </script>
+
+  <script type="text/javascript">
+//"#impressionsHU"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "impressionsMonthlyDurationBinsHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min",],
+          },
+    types: {
+            "% Impressions Within 60 min": "bar", 
+            "% Impressions Within 61 to 120 min": "bar", 
+            "% Impressions Within 121 to 180 min": "bar", 
+            "% Impressions Within 181 to 240 min": "bar", 
+            "% Impressions Over 240 min": "bar"
+            },
+    groups: [["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min"]],
+    names: {"% Impressions Within 60 min": "Within 60 min", 
+            "% Impressions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Impressions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Impressions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Impressions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Hungary per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Impressions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#impressionsHU"
+});
+
+  </script>
+
+  <script type="text/javascript">
+ //"#impressionsPL"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "impressionsMonthlyDurationBinsPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min",],
+          },
+    types: {
+            "% Impressions Within 60 min": "bar", 
+            "% Impressions Within 61 to 120 min": "bar", 
+            "% Impressions Within 121 to 180 min": "bar", 
+            "% Impressions Within 181 to 240 min": "bar", 
+            "% Impressions Over 240 min": "bar"
+            },
+    groups: [["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min"]],
+    names: {"% Impressions Within 60 min": "Within 60 min", 
+            "% Impressions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Impressions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Impressions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Impressions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Poland per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Impressions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#impressionsPL"
+});
+</script>
+
+  <script type="text/javascript">
+ //"#impressionsSK"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "impressionsMonthlyDurationBinsSK.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min",],
+          },
+    types: {
+            "% Impressions Within 60 min": "bar", 
+            "% Impressions Within 61 to 120 min": "bar", 
+            "% Impressions Within 121 to 180 min": "bar", 
+            "% Impressions Within 181 to 240 min": "bar", 
+            "% Impressions Over 240 min": "bar"
+            },
+    groups: [["% Impressions Within 60 min", "% Impressions Within 61 to 120 min", "% Impressions Within 121 to 180 min", "% Impressions Within 181 to 240 min", "% Impressions Over 240 min"]],
+    names: {"% Impressions Within 60 min": "Within 60 min", 
+            "% Impressions Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Impressions Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Impressions Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Impressions Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Slovakia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Impressions", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#impressionsSK"
+});
+
+
+  </script>
+  <script type="text/javascript">
+//contentActivityAT
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "contentActivityMonthlyDurationBinsAT.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min",],
+          },
+    types: {
+            "% Content Activity Within 60 min": "bar", 
+            "% Content Activity Within 61 to 120 min": "bar", 
+            "% Content Activity Within 121 to 180 min": "bar", 
+            "% Content Activity Within 181 to 240 min": "bar", 
+            "% Content Activity Over 240 min": "bar"
+            },
+    groups: [["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min"]],
+    names: {"% Content Activity Within 60 min": "Within 60 min", 
+            "% Content Activity Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Content Activity Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Content Activity Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Content Activity Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Austria per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Content Activity", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#contentActivityAT"
+});
+
+ 
+
+</script>
+<script type="text/javascript">
+//"#contentActivityCZ"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "contentActivityMonthlyDurationBinsCZ.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min",],
+          },
+    types: {
+            "% Content Activity Within 60 min": "bar", 
+            "% Content Activity Within 61 to 120 min": "bar", 
+            "% Content Activity Within 121 to 180 min": "bar", 
+            "% Content Activity Within 181 to 240 min": "bar", 
+            "% Content Activity Over 240 min": "bar"
+            },
+    groups: [["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min"]],
+    names: {"% Content Activity Within 60 min": "Within 60 min", 
+            "% Content Activity Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Content Activity Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Content Activity Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Content Activity Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Czechia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Content Activity", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#contentActivityCZ"
+});
+
+  </script>
+
+  <script type="text/javascript">
+//"#contentActivityHU"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "contentActivityMonthlyDurationBinsHU.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min",],
+          },
+    types: {
+            "% Content Activity Within 60 min": "bar", 
+            "% Content Activity Within 61 to 120 min": "bar", 
+            "% Content Activity Within 121 to 180 min": "bar", 
+            "% Content Activity Within 181 to 240 min": "bar", 
+            "% Content Activity Over 240 min": "bar"
+            },
+    groups: [["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min"]],
+    names: {"% Content Activity Within 60 min": "Within 60 min", 
+            "% Content Activity Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Content Activity Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Content Activity Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Content Activity Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Hungary per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Content Activity", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#contentActivityHU"
+});
+
+  </script>
+
+  <script type="text/javascript">
+ //"#contentActivityPL"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "contentActivityMonthlyDurationBinsPL.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min",],
+          },
+    types: {
+            "% Content Activity Within 60 min": "bar", 
+            "% Content Activity Within 61 to 120 min": "bar", 
+            "% Content Activity Within 121 to 180 min": "bar", 
+            "% Content Activity Within 181 to 240 min": "bar", 
+            "% Content Activity Over 240 min": "bar"
+            },
+    groups: [["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min"]],
+    names: {"% Content Activity Within 60 min": "Within 60 min", 
+            "% Content Activity Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Content Activity Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Content Activity Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Content Activity Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Poland per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Content Activity", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#contentActivityPL"
+});
+</script>
+
+  <script type="text/javascript">
+ //"#contentActivitySK"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    order: null,
+    url: "contentActivityMonthlyDurationBinsSK.json", mimeType: "json",
+    keys: {
+          x: "month_unified", // it's possible to specify "x" when category axis
+          value: ["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min",],
+          },
+    types: {
+            "% Content Activity Within 60 min": "bar", 
+            "% Content Activity Within 61 to 120 min": "bar", 
+            "% Content Activity Within 121 to 180 min": "bar", 
+            "% Content Activity Within 181 to 240 min": "bar", 
+            "% Content Activity Over 240 min": "bar"
+            },
+    groups: [["% Content Activity Within 60 min", "% Content Activity Within 61 to 120 min", "% Content Activity Within 121 to 180 min", "% Content Activity Within 181 to 240 min", "% Content Activity Over 240 min"]],
+    names: {"% Content Activity Within 60 min": "Within 60 min", 
+            "% Content Activity Within 61 to 120 min": "% From 61 to 120 min", 
+            "% Content Activity Within 121 to 180 min": "% From 121 to 180 min", 
+            "% Content Activity Within 181 to 240 min": "% From 181 to 240 min", 
+            "% Content Activity Over 240 min": "% Over 240 min"
+
+    } 
+
+        },
+  point: {
+    show: false
+  },
+  color: {pattern: colorsDurationBins},
+
+  axis: {rotated: false, x: {label: "from Slovakia per month",type: "category"}, y: { max: 100, padding: {
+      top: 0
+    }, label: "% of Content Activity", tick: {format: function(y) {return y + "%"} }}},
+
+  legend: {show: true},
+  bindto: "#contentActivitySK"
+});
+
+
+  </script>

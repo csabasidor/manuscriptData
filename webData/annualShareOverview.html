@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Overview</title>
+    <meta charset="UTF-8">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-save-svg@0.0.2/build/d3-save-svg.min.js"></script>
+
+<!-- 1) Load D3.js and billboard.js separately -->
+    <!-- Load D3: -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+    <!-- Load billboard.js with base(or theme) style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/billboard.js/3.6.3/billboard.js"></script>
+
+
+
+</head>
+<body>
+
+<style>
+	 .bb-chart-arc text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+   .bb-legend-item text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+   .bb-chart-arcs text {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+    .bb-chart-text text {font-size: 18px;font-weight: bold;} 
+    .bb-title  {fill: #5A5A5A;font-size: 18px;font-weight: bold;}
+
+a.button {
+    background-color: #add8e6; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-family : arial;
+    }
+    
+    p {
+    position: absolute;
+    top: 50%;
+    left: 40%}
+  </style>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col" align="center" ><div id="visitorsAnnual"></div></div> 
+   <div class="col" align="center" ><div id="overnightsAnnual"></div></div> 
+   <div class="col" align="center" ><div id="overnightsAverage"></div></div> 
+
+  </div>
+  <div class="row">
+    
+    <div class="col" align="center" ><div id="webUsersAnnual"></div></div> 
+    <div class="col" align="center" ><div id="webSessionsAnnual"></div></div> 
+    <div class="col" align="center" ><div id="sessionsTimeAverage"></div></div> 
+    
+  </div>
+  <div class="row">
+    
+    <div class="col" align="center" ><div id="fbFansAverage"></div></div> 
+    <div class="col" align="center" ><div id="fbImperssionsAnnual"></div></div> 
+    <div class="col" align="center" ><div id="fbContentActvityAnnual"></div></div> 
+    
+  </div>
+  <!--<div class="row">
+  <div class="col-xs-4" align="center" >
+    <input id="dl" name="downloadButton" type="button" value="Download SVG" />
+  </div>
+  <div class="col-xs-4" align="center" >
+    <input id="d2" name="downloadButton" type="button" value="Download SVG" />
+  </div>
+  <div class="col-xs-4" align="center" >
+    <input id="d3" name="downloadButton" type="button" value="Download SVG" />
+  </div>
+  </div>-->
+</div>
+
+
+
+  </body>
+
+  <script type="text/javascript">
+
+
+ var ArcColorsDonut = {
+      data1: "#DEF7CC",
+      data2: "#6495ED",
+      data3: "#66D56D",
+      data4: "#00FFFF",
+      data5: "#1D9A6C",
+      data6: "#40B5AD",
+    }
+
+
+  var dataNamesDonut = {
+      data1: "Austria",
+      data2: "Czechia",
+      data3: "Hungary",
+      data4: "Poland",
+      data5: "Rest of foreign incoming countries",   
+      data6: "Slovakia"
+    }
+  	
+    var ArcColorsBar = {
+      data1: "#DEF7CC",
+      data2: "#6495ED",
+      data3: "#66D56D",
+      data4: "#00FFFF",
+      data5: "#1D9A6C",
+      data6: "#40B5AD",
+      data7: "#F88379",
+    }
+
+
+  var dataNamesBar = {
+      data1: "Austria",
+      data2: "Czechia",
+      data3: "Hungary",
+      data4: "Poland",
+      data5: "Foreign visitors",   
+      data6: "Slovakia",
+      data7: 'Visitors total'
+    }
+
+var chartsSizes = {height: 500,
+                  width: 500}
+
+
+
+//"#visitorsAnnual"
+var chart = bb.generate({
+	 size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",783],["data2",6579],["data3",1513],["data4",2777],["data5",10380],["data6",73700]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+    	
+  },
+  donut: {
+    title: "Visitors\n(SOSR, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#visitorsAnnual"
+});
+
+ d3.select('#dl').on('click', function() {
+      var config = {
+        filename: 'customFileName',
+      }
+      d3_save_svg.save(d3.select('svg').node(), config);
+    });
+
+</script>
+<script type="text/javascript">
+//#overnightsAnnual
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",1428],["data2",11830],["data3",2377],["data4",4809],["data5",25437],["data6",135071]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+  },
+  donut: {
+    title: "Visitors' overnight stays\n(SOSR, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#overnightsAnnual"
+});
+
+ d3.select('#d2').on('click', function() {
+      var config = {
+        filename: 'customFileName',
+      }
+      d3_save_svg.save(d3.select('svg').node(), config);
+    });
+
+
+  </script>
+
+  <script type="text/javascript">
+//#overnightsAverage
+var chart = bb.generate({
+    size: {height: chartsSizes['height'], width: chartsSizes['width']},
+    title: {
+            text: "Avg. overnight stays (SOSR, 2021)",
+            padding: {
+              top: 40
+
+                    },
+            position: "center"
+           },
+
+    data: {
+            columns: [
+                      ["data1",1.84],["data2",1.88],["data5",2.36],["data3",2.06],["data4",2.08],["data6",1.78],["data7",1.90]
+                      ],
+    type: "bar",
+
+    colors: ArcColorsBar,
+    names: dataNamesBar,
+    labels: {
+              position:{
+                        x: 0,
+                        y: 0,
+                      }
+            },
+          },
+    axis: {
+            rotated: true,
+  x: {
+      tick: {
+        culling: {
+          max: 2
+        },
+        show: false,
+        text: {
+          show: false
+        }
+      }
+    },
+    y: {
+      max: 3,
+      //min: 0,
+      tick: {
+        
+        show: true,
+        text: {
+          show: true
+        }
+      }
+    },
+          },
+    bar: {
+          padding: 6,
+          indices: {
+                    removeNull: true
+                    }
+         },
+    
+    legend: {
+              show: true,
+              position: "bottom",
+            },
+   
+    bindto: "#overnightsAverage"
+                    });
+
+ d3.select('#d2').on('click', function() {
+      var config = {
+        filename: 'customFileName',
+      }
+      d3_save_svg.save(d3.select('svg').node(), config);
+    });
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsersAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",539],["data2",1914],["data3",3118],["data4",381],["data5",11141],["data6",82049]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+      
+  },
+  donut: {
+    title: "Page users\n(Google Analytics, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#webUsersAnnual"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#webUsersAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",606],["data2",2312],["data3",3556],["data4",438],["data5",12216],["data6",96129]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+      
+  },
+  donut: {
+    title: "Page sessions\n(Google Analytics, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#webSessionsAnnual"
+});
+
+
+  </script>
+
+  <script type="text/javascript">
+//#sessionsAverage
+var chart = bb.generate({
+    size: {height: chartsSizes['height'], width: chartsSizes['width']},
+    title: {
+            text: "Avg. session duration in minutes (Google Analytics, 2021)",
+            padding: {
+              top: 40
+
+                    },
+            position: "center"
+           },
+
+    data: {
+            columns: [
+                      ["data1",1.89],["data2",2.56],["data3",2.14],["data4",2.33],["data5",1.55],["data6",1.59],["data7",1.60]
+                      ],
+    type: "bar",
+
+    colors: ArcColorsBar,
+    names: dataNamesBar,
+    labels: {
+              position:{
+                        x: 0,
+                        y: 0,
+                      }
+            },
+          },
+    axis: {
+            rotated: true,
+  x: {
+      tick: {
+        culling: {
+          max: 2
+        },
+        show: false,
+        text: {
+          show: false
+        }
+      }
+    },
+    y: {
+      max: 3,
+      //min: 0,
+      tick: {
+        
+        show: true,
+        text: {
+          show: true
+        }
+      }
+    },
+          },
+    bar: {
+          padding: 6,
+          indices: {
+                    removeNull: true
+                    }
+         },
+    
+    legend: {
+              show: true,
+              position: "bottom",
+            },
+   
+    bindto: "#sessionsTimeAverage"
+                    });
+
+ d3.select('#d2').on('click', function() {
+      var config = {
+        filename: 'customFileName',
+      }
+      d3_save_svg.save(d3.select('svg').node(), config);
+    });
+
+
+  </script>
+
+  <script type="text/javascript">
+    //"#fbFansAverage"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",95],["data2",584],["data3",202],["data4",296],["data5",2159],["data6",13302]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+      
+  },
+  donut: {
+    title: "Average page fans\n(Facebook Graph API, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#fbFansAverage"
+});
+
+
+  </script>
+
+  
+  <script type="text/javascript">
+    //"#fbImperssionsAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",3819],["data2",42828],["data3",53353],["data4",60068],["data5",82415],["data6",14979387]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+      
+  },
+  donut: {
+    title: "Page impressions\n(Facebook Graph API, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true
+  },
+  bindto: "#fbImperssionsAnnual"
+});
+
+
+  </script>
+
+    <script type="text/javascript">
+    //"#fbContentActvityAnnual"
+var chart = bb.generate({
+   size: {height: chartsSizes['height'], width: chartsSizes['width']},
+  data: {
+    columns: [["data1",199],["data2",1123],["data3",430],["data4",351],["data5",3395],["data6",147189]],
+    type: "donut", // for ESM specify as: donut()
+    colors: ArcColorsDonut,
+    names: dataNamesDonut
+      
+  },
+  donut: {
+    title: "Page content activity\n(Facebook Graph API, 2021)",
+    padAngle: 0.1,
+    label: {
+      threshold: 0.01,
+      //ratio: 0.5
+    }
+  },
+  legend: {
+    show: true,
+    position: "bottom"
+  },
+  bindto: "#fbContentActvityAnnual"
+});
+
+
+  </script>
+  
+  
