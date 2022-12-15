@@ -15,7 +15,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - **Months (list_of_months):** all available  
     - **Indicators:**  all available
     - **Incoming markets:** all available  
-    -  **Output data set name:** inputCr3804mr  
+- **Output data set name:** inputCr3804mr  
 - **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
 
 2. ### [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
@@ -44,7 +44,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - **Indicators:**  
         - per city, per country
         - Users, Sessions, Average Session Duration  
-    - **Output data set name:** 
+- **Output data set name:** 
         - ga_country_month
         - ga_city_month
 - **Possible export formats at default:** PostgreSQL, 
