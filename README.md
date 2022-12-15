@@ -19,14 +19,22 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 
 2. ### [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
-- **Purpose and Extent of usage:**   
+- **API accessibility prerequisites**: [Facebook Developer Account with Page Access Token](https://developers.facebook.com/docs/facebook-login/guides/access-tokens/)  
+- **Purpose and Extent of usage:** Extract selected daily metrics for given Facebook page (DMO) 
 - **Default settings (of variables):**   
-    - **Administrative unit (list_of_nuts):
-    - **Year (year_id):** 2021 
-    - **Months (list_of_months):** all available  
-    - **Indicators:**  all available
-    - **Incoming markets:** all available  
-- **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
+    - **Page name (page_name):** none
+    - **Page ID (page_id):** none 
+    - **Page access token (page_access_token):** none
+    - **Indicators:**
+        - Page fans per city [page_fans_city]       
+        - Page fans per country [page_fans_country]  
+        - Page impressions by country [page_impressions_by_country_unique]  
+        - Page content activity by country [page_content_activity_by_country_unique]  
+        - Page impressions by city [page_impressions_by_city_unique]  
+        - Page impressions by content activity [page_content_activity_by_city_unique]     
+    
+- **Possible export formats at default:** PostgreSQL, (.csv and .xlsx formats are not encouraged) 
+
 
 
 3. ### [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
