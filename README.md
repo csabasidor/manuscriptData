@@ -20,7 +20,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 2. ### [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
 - **API accessibility prerequisites**: [Facebook Developer Account with Page Access Token](https://developers.facebook.com/docs/facebook-login/guides/access-tokens/)  
-- **Purpose and Extent of usage:** Extract selected daily metrics for given Facebook page (DMO) 
+- **Purpose and Extent of usage:** Extract selected daily metrics for given Facebook page (DMO) via [Graph Api - Page Insights](https://developers.facebook.com/docs/graph-api/reference/insights/#page-impressions)
 - **Default settings (of variables):**   
     - **Page name (page_name):** none
     - **Page ID (page_id):** none 
@@ -35,13 +35,11 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     
 - **Possible export formats at default:** PostgreSQL, (.csv and .xlsx formats are not encouraged) 
 
-
-
 3. ### [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
-- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
-- **Purpose and Extent of usage:**   
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), .xslx dumps for cities (folder name = GAcities) and countries (folder name = GAcountries) in two seperate folders.
+- **Purpose and Extent of usage:** Import multiple .xlsx dumps of [Google Analytics](https://analytics.google.com/) basic metrics. It is recommended to use only when one does not have an access token to the Google Analytics API.
 - **Default settings (of variables):**   
-    - **Administrative unit (list_of_nuts):
+    - **Administrative unit (list_of_nuts):**
     - **Year (year_id):** 2021 
     - **Months (list_of_months):** all available  
     - **Indicators:**  all available
