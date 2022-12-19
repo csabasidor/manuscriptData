@@ -48,8 +48,23 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - ga_country_month
     - ga_city_month
 
+4. ### [runCountryAggregates.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCountryAggregates.py)  
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)     - Previous execution of with PostgreSql DB:  
+    - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
+    - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
+    - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
+- **Purpose and Extent of usage:** Import multiple .xlsx dumps of [Google Analytics](https://analytics.google.com/) basic metrics. It is recommended to use only when one does not have an access token to the Google Analytics API.
+- **Default settings (of variables):**   
+    - **Page name (page_name):** None  
+    - **Indicators:**  
+        - per city, per country
+        - Users, Sessions, Average Session Duration  
+- **Output data set name:**
+    - ga_country_month
+    - ga_city_month
 
-4. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
+
+5. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
 - **Purpose and Extent of usage:**   
 - **Default settings (of variables):**   
