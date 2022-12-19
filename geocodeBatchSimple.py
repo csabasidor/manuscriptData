@@ -30,12 +30,12 @@ list_df_out = []
 
 #Define calls a data manupilation for ORS API
 def dataparser(x):
-
-    print('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]))
+#REPLACE INSERT_API_KEY WITH YOUR API KEY
+    print('https://api.openrouteservice.org/geocode/search?api_key=INSERT_API_KEY&text=' + str(df_in['adr_in'][x]))
     headers = {
         'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
     }
-    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]), headers=headers)
+    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=INSERT_API_KEY&text=' + str(df_in['adr_in'][x]), headers=headers)
 
     
     print(call.status_code, call.reason)
