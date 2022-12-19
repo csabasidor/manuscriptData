@@ -69,3 +69,16 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Purpose and Extent of usage:** Geocodes **ga_fb_geocoded_cities** (unique cities within Facebook a Google Analytics sample).   
 - **Default settings:** Due to API limits, geocoding 50 records at instance.       
 - **Possible export formats at default:** PostgreSQL.
+
+5. ### [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), [openrouteservice API KEY](https://openrouteservice.org/dev/#/signup).  
+  - Previous execution of with PostgreSql DB:  
+    - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
+    - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
+    - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)
+    - [runCountryAggregates.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCountryAggregates.py)  
+    - [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
+- **Purpose and Extent of usage:** Update variables distance_km and duration_min of **ga_fb_geocoded_cities** (unique cities within Facebook a Google Analytics sample).   
+- **Default settings:** Due to API limits, geocoding 50 records at instance. 
+  - **Default destination:** Kosice, Slovakia.  
+- **Possible export formats at default:** PostgreSQL.
