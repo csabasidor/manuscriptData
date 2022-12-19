@@ -12,58 +12,35 @@ import psycopg2 as pg
 from sqlalchemy import create_engine, MetaData, Table
 import time
 
-#ENTER DB CREDENTIALS for LOADING into DB
-conn_1 = pg.connect("dbname=DBNAME user=USERNAME host=HOSTNAME port=PORTNUMBER password=PASSWORD")
 
-#ENTER DB CREDENTIALS for LOADING into DB
-engine = create_engine('postgresql+psycopg2://USERNAME:PASSWORD@HOSTNAME:PORTNUMBER/DBNAME')
+#CREATE A CONNECTION WITH DB, please insert necessary credentials into the vaiable "engine" and remove the hashtag #.
+#conn_1 = pg.connect("dbname= DBNAME user=USER host=HOST port=PORT password=PASSWORD")
 
-
-
-#CALL FOR Facebook Graph API export
-call_df_in = psql.read_sql("SELECT DISTINCT(origin_city), origin_country, origin_city || ', ' || origin_country adr \
-                            from fb_city_month \
-                            where page_name IN ('Visit Kosice') \
-                            and geom is null \
-                            order by origin_country, origin_city \
-                            limit 50", conn_1)
-
-
-#CALL FOR Google Analytics API export
-call_df_in = psql.read_sql("SELECT DISTINCT(\"City\"), \"Country\", \"City\" || ', ' || \"Country\" adr \
-                            from ga_city_month \
-                            where page_name IN ('Visit Kosice') \
-                            and geom is null \
-                            order by \"Country\", \"City\" \
-                            limit 50", conn_1)
-
-
+#call all records without coordinates
+call_df_in = psql.read_sql("SELECT *, origin_city || ', ' || origin_country adr_in FROM ga_fb_geocoded_cities WHERE adr IS NULL LIMIT 5", conn_1)
 df_in = pd.DataFrame(call_df_in)
 
 conn_1.close()
 
-
-
-
-
 global list_df_out
 list_df_out = []
 
+
+
+#Define calls a data manupilation for ORS API
 def dataparser(x):
-    #ENTER YOUR API KEY
-    print('https://api.openrouteservice.org/geocode/search?api_key=ENTERYOURAPIKEY&text=' + str(df_in['adr'][x]))
+
+    print('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]))
     headers = {
         'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
     }
-    #ENTER YOUR API KEY
-    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=ENTERYOURAPIKEY&text=' + str(df_in['adr'][x]), headers=headers)
+    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]), headers=headers)
 
     
     print(call.status_code, call.reason)
 
     js = call.json()
 
-    
     
 
     
@@ -74,7 +51,7 @@ def dataparser(x):
             df = pd.DataFrame.from_dict(js['features'][foo]['geometry'], orient = 'index')
             df = df.T
             
-            df.loc [:, 'adr'] = str(df_in['adr'][x])
+            df.loc [:, 'adr'] = str(df_in['adr_in'][x])
             df.loc[:, 'geometry_confidence'] = js['features'][foo]['properties']['confidence']
             df.loc[:, 'ors_id'] = js['features'][foo]['properties']['id']
             df.loc[:, 'osm_id'] = js['features'][foo]['properties']['source_id']
@@ -93,42 +70,62 @@ def dataparser(x):
       
         featureposition = 0
 
-        if js['features'][featureposition]['properties']['country'] == str(df_in['adr'][x]).split(", ")[1]:
+        if js['features'][featureposition]['properties']['country'] == str(df_in['adr_in'][x]).split(", ")[1]:
             dfBuilder(featureposition)
         else:
-            while js['features'][featureposition]['properties']['country'] != str(df_in['adr'][x]).split(", ")[1] and featureposition < len(js['features']) - 1:
+            while js['features'][featureposition]['properties']['country'] != str(df_in['adr_in'][x]).split(", ")[1] and featureposition < len(js['features']) - 1:
                 featureposition = featureposition + 1
-            if js['features'][featureposition]['properties']['country'] == str(df_in['adr'][x]).split(", ")[1]:
+            if js['features'][featureposition]['properties']['country'] == str(df_in['adr_in'][x]).split(", ")[1]:
                 newfeatureposition = featureposition
                 dfBuilder(newfeatureposition)
-            elif featureposition == len(js['features']) - 1 and  js['features'][featureposition]['properties']['country'] != str(df_in['adr'][x]).split(", ")[1]:
-                dict_flagged = { "type": "n/a", "adr": str(df_in['adr'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
+            elif featureposition == len(js['features']) - 1 and  js['features'][featureposition]['properties']['country'] != str(df_in['adr_in'][x]).split(", ")[1]:
+                dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
                 df = pd.DataFrame.from_dict(dict_flagged)
                 list_df_out.append(df)
              
 
     
     if not js['features']:
-        dict_flagged = { "type": "n/a", "adr": str(df_in['adr'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
+        dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
         df = pd.DataFrame.from_dict(dict_flagged)
         list_df_out.append(df)
     else:
         countryValidation()
         #print('Country OK')
         
-    
+
+
+
 
 x = 0
 dataparser(x)
-while x < len(df_in['adr']) - 1:
+while x < len(df_in['adr_in']) - 1:
     x = x + 1
     dataparser(x)
 
 
 data_out = pd.concat(list_df_out)
+data_out = data_out.reset_index()
 
-#EXPORT TO PG DATABASE
 
-#CHANGE THE OUTPUT NAME
-data_out.to_sql('CHANGE THE OUTPUT NAME', engine, if_exists='append')
+#For loading the response data into a PostrgeSQL DB, please insert necessary credentials into the vaiable "engine" and remove the hashtag #.
+#engine = create_engine('postgresql+psycopg2://USERNAME:PASSWORD@HOSTNAME:PORTNUMBER/DBNAME')
+
+#EXPORT TEMP TABLE WITH COORDINATES
+data_out.to_sql('fbgacit', engine, if_exists='replace')
+
+
+#UPDATE COORDINATES IN DB
+with engine.connect() as con:
+    query = "UPDATE ga_fb_geocoded_cities set \"type\" = nv.\"type\", coordinates = nv.coordinates, adr = nv.adr, geometry_confidence = nv.geometry_confidence, ors_id = nv. ors_id, osm_id = nv.osm_id, osm_layer = nv.osm_layer, city_name = nv.city_name, region_name = nv.region_name, country_name = nv.country_name FROM (SELECT * FROM fbgacit) nv WHERE origin_city || ', ' || origin_country = nv.adr"
+    con.execute(query)
+
+con.close()
+
+
+
+
+
+
+
 
