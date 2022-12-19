@@ -81,14 +81,14 @@ def dataparser(x):
                 newfeatureposition = featureposition
                 dfBuilder(newfeatureposition)
             elif featureposition == len(js['features']) - 1 and  js['features'][featureposition]['properties']['country'] != str(df_in['adr_in'][x]).split(", ")[1]:
-                dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
+                dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "geometry_confidence": "0.0", "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "osm_layer": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
                 df = pd.DataFrame.from_dict(dict_flagged)
                 list_df_out.append(df)
             
 
     
     if not js['features']:
-        dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
+        dict_flagged = { "type": "n/a", "adr": str(df_in['adr_in'][x]), "geometry_confidence": "0.0", "coordinates": ["n/a"], "ors_id": "n/a", "osm_id": "n/a", "osm_layer": "n/a", "type": "n/a", "city_name": "n/a", "region_name": "n/a", "country_name": "n/a"}
         df = pd.DataFrame.from_dict(dict_flagged)
         list_df_out.append(df)
     else:
