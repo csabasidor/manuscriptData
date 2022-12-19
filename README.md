@@ -53,15 +53,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
     - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
     - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
-- **Purpose and Extent of usage:**: Executes [createTempTables.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/createTempTables.sql) that [exports input aggregate data for Figure 1 to Figure 10](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)  
-- **Default settings (of variables):**   
-    - **Page name (page_name):** None  
-    - **Indicators:**  
-        - per city, per country
-        - Users, Sessions, Average Session Duration  
-- **Output data set name:**
-    - ga_country_month
-    - ga_city_month
+- **Purpose and Extent of usage:**: Executes [createTempTables.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/createTempTables.sql) that exports [aggregated data for Figure 1 to Figure 10](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData) and creates tables **ga_city_sample, fb_city_sample** (sampled cities for further processing) and **ga_fb_geocoded_cities** as inupt data for [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py).
 
 
 5. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
