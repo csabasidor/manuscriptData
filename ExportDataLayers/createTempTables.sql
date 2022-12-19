@@ -7,7 +7,7 @@ CASE
 	WHEN cr3804mr_mes_y LIKE '%.' AND cr3804mr_mes_y NOT LIKE '%-%'  THEN CAST(REPLACE(cr3804mr_mes_y, '.', '') AS INTEGER)
 	ELSE CAST(cr3804mr_mes_y AS INTEGER) 
 END month_unified 
-FROM inputCr3804mr
+FROM "inputCr3804mr"
 WHERE nuts14_x LIKE 'SK0422_0425%' AND cr3804mr_mes_x <> '1. - 12.' AND  cr3804mr_rok_y::INTEGER  = 2021
 ORDER BY nuts14_y, cr3804mr_ukaz_x, cr3804mr_dim3_y, month_unified;
 
