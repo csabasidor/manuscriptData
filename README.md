@@ -70,7 +70,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Default settings:** Due to API limits, geocoding 50 records at instance.       
 - **Possible export formats at default:** PostgreSQL.
 
-5. ### [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
+6. ### [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), [openrouteservice API KEY](https://openrouteservice.org/dev/#/signup).  
   - Previous execution of (with PostgreSql DB):  
     - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
@@ -83,7 +83,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
   - **Default destination:** Kosice, Slovakia.  
 - **Possible export formats at default:** PostgreSQL.
 
-6. ### [runCityDuratioBins.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCityDuratioBins.py)
+7. ### [runCityDuratioBins.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCityDuratioBins.py)
 - **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), [openrouteservice API KEY](https://openrouteservice.org/dev/#/signup).  
   - Previous execution of (with PostgreSql DB):  
     - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
