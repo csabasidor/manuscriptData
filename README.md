@@ -49,7 +49,8 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - ga_city_month
 
 4. ### [runCountryAggregates.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCountryAggregates.py)  
-- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)     - Previous execution of with PostgreSql DB:  
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)  
+  - Previous execution of with PostgreSql DB:  
      - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
      - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
      - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)  
