@@ -17,7 +17,8 @@ import time
 #conn_1 = pg.connect("dbname= DBNAME user=USER host=HOST port=PORT password=PASSWORD")
 
 #call all records without coordinates
-call_df_in = psql.read_sql("SELECT *, origin_city || ', ' || origin_country adr_in FROM ga_fb_geocoded_cities WHERE adr IS NULL LIMIT 5", conn_1)
+#DEFAULT LIMIT 50 for API LIMITATIONS
+call_df_in = psql.read_sql("SELECT *, origin_city || ', ' || origin_country adr_in FROM ga_fb_geocoded_cities WHERE adr IS NULL LIMIT 50", conn_1)
 df_in = pd.DataFrame(call_df_in)
 
 conn_1.close()
@@ -29,12 +30,13 @@ list_df_out = []
 
 #Define calls a data manupilation for ORS API
 def dataparser(x):
-
-    print('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]))
+#INSERT YOUR API KEY
+    print('https://api.openrouteservice.org/geocode/search?api_key=_INSERT_API_KEY_HERE_&text=' + str(df_in['adr_in'][x]))
     headers = {
         'Accept': 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
     }
-    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=5b3ce3597851110001cf62488eb6c3ab311a4c46b02607a24bf3a792&text=' + str(df_in['adr_in'][x]), headers=headers)
+    #INSERT YOUR API KEY
+    call = requests.get('https://api.openrouteservice.org/geocode/search?api_key=_INSERT_API_KEY_HERE_&text=' + str(df_in['adr_in'][x]), headers=headers)
 
     
     print(call.status_code, call.reason)
