@@ -91,6 +91,5 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
     - [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
 - **Purpose and Extent of usage:** Executes [durationBins.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/createTempTables.sql) that exports [aggregated data for Figure 11 to Figure 15](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)
-- **Default settings:** Due to API limits, geocoding 50 records at instance. 
-  - **Default destination:** Kosice, Slovakia.  
+- **Default settings:** Set for 1 hour intervals, (max over 240min)  
 - **Possible export formats at default:** PostgreSQL, .xlsx.
