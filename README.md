@@ -56,14 +56,15 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Purpose and Extent of usage:**: Executes [createTempTables.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/createTempTables.sql) that exports [aggregated data for Figure 1 to Figure 10](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData) and creates tables **ga_city_sample, fb_city_sample** (sampled cities for further processing) and **ga_fb_geocoded_cities** as inupt data for [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py).  
 - **Default settings (of variables):**   
     - **Incoming markets:** Austria, Czechia, Hungary, Poland, Slovakia.    
+    - **Possible export formats at default:** PostgreSQL.
 
 5. ### [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
-- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/)
-- **Purpose and Extent of usage:**   
-- **Default settings (of variables):**   
-    - **Administrative unit (list_of_nuts):
-    - **Year (year_id):** 2021 
-    - **Months (list_of_months):** all available  
-    - **Indicators:**  all available
-    - **Incoming markets:** all available  
-- **Possible export formats at default:** PostgreSQL, .xlsx, .csv 
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/), [openrouteservice API KEY](https://openrouteservice.org/dev/#/signup).
+    - - Previous execution of with PostgreSql DB:  
+    - [callCR3804MR.py](https://github.com/csabasidor/notesData2092724/blob/main/callCR3804MR.py)  
+    - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
+    - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)
+    - [runCountryAggregates.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runCountryAggregates.py)  
+- **Purpose and Extent of usage:** Geocodes **ga_fb_geocoded_cities** (unique cities within Facebook a Google Analytics sample).   
+- **Default settings:** Due to API limits, geocoding 50 records at instance.       
+- **Possible export formats at default:** PostgreSQL.
