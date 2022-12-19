@@ -7,7 +7,7 @@ CASE
 	WHEN cr3804mr_mes_y LIKE '%.' AND cr3804mr_mes_y NOT LIKE '%-%'  THEN CAST(REPLACE(cr3804mr_mes_y, '.', '') AS INTEGER)
 	ELSE CAST(cr3804mr_mes_y AS INTEGER) 
 END month_unified 
-FROM susr_kesnvrvgl_dist_origin_month
+FROM inputCr3804mr
 WHERE nuts14_x LIKE 'SK0422_0425%' AND cr3804mr_mes_x <> '1. - 12.' AND  cr3804mr_rok_y::INTEGER  = 2021
 ORDER BY nuts14_y, cr3804mr_ukaz_x, cr3804mr_dim3_y, month_unified;
 
@@ -401,11 +401,11 @@ GROUP BY fb_data_in.country_id, "fbCountryNames".country_id, "fbCountryNames".co
 --CREATE TEMPORARY TABLE CONTAINING HARMONIZED DATA FROM GOOGLE ANALYTICS DATA AT COUNTRY LEVEL; INPUT SET: ga_country_month
 CREATE TEMP TABLE ga_country_month AS
 WITH UNIONS AS (
-(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Users' name_var_native, d_year::integer year_native, d_month month_native, "Users" val, 'Google Analytics' value_source from viske_ga_month where d_year = '2021') 
+(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Users' name_var_native, d_year::integer year_native, d_month month_native, "Users" val, 'Google Analytics' value_source from ga_country_month where d_year = '2021') 
 union all
-(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Sessions' name_var_native, d_year::integer year_native, d_month month_native, "Sessions" val, 'Google Analytics' value_source from viske_ga_month where d_year = '2021') 
+(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Sessions' name_var_native, d_year::integer year_native, d_month month_native, "Sessions" val, 'Google Analytics' value_source from ga_country_month where d_year = '2021') 
 union all
-(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Avg. Session Duration' name_var_native, d_year::integer year_native, d_month month_native, "avg session duration" val, 'Google Analytics' value_source from viske_ga_month where d_year = '2021') 
+(select 'SK0422_0425'::text id_nuts, 'Košice (districts I - IV)'::text name_nuts, null::text id_dim_native, "Country" name_dim_native, null::text id_var_native, 'Avg. Session Duration' name_var_native, d_year::integer year_native, d_month month_native, "avg session duration" val, 'Google Analytics' ga_country_month from viske_ga_month where d_year = '2021') 
 )
 SELECT id_nuts, name_nuts, id_dim_native, name_dim_native,
 CASE
