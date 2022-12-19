@@ -808,7 +808,9 @@ null::text city_name,
 null::text region_name,
 null::text country_name,
 null::float distance_km, 
-null::float duration_min
+null::float duration_min,
+null::sample_airport,
+null::min_to_airport
 FROM (
 (SELECT DISTINCT(origin_city), origin_country from ga_city_sample
 ORDER BY origin_country, origin_city)
