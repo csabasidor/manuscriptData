@@ -104,3 +104,15 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Purpose and Extent of usage:** Retrieves the duration of selected routes to selected airports and updates the relevant table containing all geocoded places.
 - **Default settings:** Places initialy being over 240 min to Kosice with corresponding airports.
 - **Possible export formats at default:** PostgreSQL.
+
+9. ### [runAirportAggregates.py](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/runAirportAggregates.py)
+- **Minimum prerequisites**: [Python 3.7](https://www.python.org/downloads/release/python-370/) or later version, [PostgreSQL](https://www.postgresql.org/download/). 
+  - Previous execution of (with PostgreSql DB):  
+    - [callGraphApi.py](https://github.com/csabasidor/manuscriptData/blob/main/callGraphApi.py)  
+    - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)
+    - [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
+    - [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
+    - [airportsDistanceMatrixBatch.py](https://github.com/csabasidor/notesData2092724/blob/main/AirportsDistanceMatrixBatch.py)
+- **Purpose and Extent of usage:** Executes [airAggregates.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/airportAggregates.sql) that exports [aggregated data for Figure 16](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)
+- **Default settings:** Set for 1 hour intervals, (max over 240min) 
+- **Possible export formats at default:** PostgreSQL, .xlsx.
