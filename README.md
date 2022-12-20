@@ -116,3 +116,6 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
 - **Purpose and Extent of usage:** Executes [airAggregates.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/airportAggregates.sql) that exports [aggregated data for Figure 16](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)
 - **Default settings:** Set for 1 hour intervals, (max over 240min) 
 - **Possible export formats at default:** PostgreSQL, .xlsx.
+
+
+10. All graphics' source code may be found in the [webData folder](https://github.com/csabasidor/notesData2092724/tree/main/webData) or online as a [dashboard](http://cases.idoaba.eu/ccors22/).
