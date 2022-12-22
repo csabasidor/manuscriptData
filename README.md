@@ -90,7 +90,7 @@ Extract dataset cr3804mr: Occupancy of accommodation establishments – district
     - [importMultipleExcelDumpsGoogleAnalytics.py](https://github.com/csabasidor/notesData2092724/blob/main/importMultipleExcelDumpsGoogleAnalytics.py)
     - [geocodeBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/geocodeBatchSimple.py)  
     - [distanceMatrixBatchSimple.py](https://github.com/csabasidor/notesData2092724/blob/main/distanceMatrixBatchSimple.py)  
-- **Purpose and Extent of usage:** Executes [durationBins.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/createTempTables.sql) that exports [aggregated data for Figure 11 to Figure 15](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)
+- **Purpose and Extent of usage:** Executes [durationBins.sql](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/durationBins.sql) that exports [aggregated data for Figure 11 to Figure 15](https://github.com/csabasidor/notesData2092724/blob/main/ExportDataLayers/graphData)
 - **Default settings:** Set for 1 hour intervals, (max over 240min)  
 - **Possible export formats at default:** PostgreSQL, .xlsx.
 
