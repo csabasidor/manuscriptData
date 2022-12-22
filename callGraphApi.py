@@ -46,7 +46,15 @@ for i in range(delta.days + 1):
 #List of variables for extraction
 group2 = ["page_fans_city", "page_fans_country","page_impressions_by_country_unique", "page_content_activity_by_country_unique", "page_impressions_by_city_unique", "page_content_activity_by_city_unique"]
 
-
+#List of variables that may be extracted
+'''
+["page_content_activity_by_action_type", "page_content_activity_by_action_type_unique", "page_content_activity_by_age_gender_unique", "page_content_activity_by_city_unique",\
+"page_content_activity_by_country_unique", "page_content_activity_by_locale_unique", "page_fans_by_like_source_unique", "page_fans_by_unlike_source_unique", "page_fans_city",\
+"page_fans_country", "page_fans_gender_age", "page_fans_locale", "page_fans_online", "page_impressions_by_age_gender_unique", "page_impressions_by_city_unique", \
+ "page_impressions_by_country_unique", "page_impressions_by_locale_unique", "page_impressions_by_story_type_unique", "page_impressions_frequency_distribution", "page_negative_feedback_by_type", \
+ "page_negative_feedback_by_type_unique", "page_positive_feedback_by_type", "page_positive_feedback_by_type_unique", "page_views_by_age_gender_logged_in_unique", "page_views_by_internal_referer_logged_in_unique", \
+"page_views_external_referrals"]
+'''
 
 for item in group2:
     metric = item
