@@ -26,7 +26,6 @@ from selenium import webdriver
 #For creating temp tables, and TABLES for further processing in PostrgeSQL DB, please insert necessary credentials into the vaiable "engine" and remove the hashtag #.
 #engine = create_engine('postgresql+psycopg2://USERNAME:PASSWORD@HOSTNAME:PORTNUMBER/DBNAME')
 
-engine = create_engine('postgresql+psycopg2://postgres:17021987@localhost:5432/dbis')
 
 
 with engine.connect() as con:
